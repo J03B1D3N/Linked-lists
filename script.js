@@ -3,12 +3,16 @@
 function LinkedList (){
     let length = 0
     let head = null
+    let tail = null
    
    this.size = function() {
     return length
    }
    this.head = function(){
     return head
+   }
+   this.tail = function() {
+    return tail;
    }
 
    let Node = function(value){
@@ -20,12 +24,17 @@ function LinkedList (){
     const node = new Node(value);
     if(head === null){
         head = node
-    } else {
+    }
+    if(tail === null){
+        tail = node
+    }
+     else {
         let currentNode = head
         while(currentNode.next){
             currentNode = currentNode.next
         }
         currentNode.next = node
+        tail = node
     }
     length++
    }
@@ -34,7 +43,12 @@ function LinkedList (){
     const node = new Node(value);
     if(head === null) {
         head = node
-    } else {
+    }
+    if(tail === null){
+        tail = node
+    }
+    else
+    {
         let currentNode = head
         head = node
         head.next = currentNode
@@ -48,7 +62,7 @@ function LinkedList (){
     if(currentNode.value === value) {
         head = currentNode.next
     } else {
-        while(currentNode.element !== element) {
+        while(currentNode.value !== value) {
             previousNode = currentNode
             currentNode = currentNode.next
         }
@@ -56,8 +70,23 @@ function LinkedList (){
     }
     length--
    }
+   this.pop = function() {
+    let currentNode = head
+    let previousNode
+    if(length == 0) {
+        return "nothing to pop, list is empty"
+    } else {
+        while(currentNode.next) {
+            previousNode = currentNode
+            currentNode = currentNode.next
+        }
+        previousNode.next = null
+        tail = previousNode
+    }
+    length--
+   }
 
-   this.indexOf = function(value) {
+   this.find = function(value) {
     let currentNode = head
     let index = -1
     while(currentNode) {
@@ -70,7 +99,7 @@ function LinkedList (){
     return -1
    }
 
-   this.elementAt = function(index) {
+   this.at = function(index) {
     let currentNode = head;
     let count = 0;
     while(count < index){
@@ -121,10 +150,33 @@ function LinkedList (){
     length--;
     return currentNode.value
    }
+   this.toString = function(){
+    let string = ""
+    let currentNode = head
+    if(length == 0 ) return "Nothing to print, list is empty"
+    else {
+        while(currentNode.next){
+            string += "(" + currentNode.value +")" + " => "
+            currentNode = currentNode.next
+        }
+    }
+    return string +=  "(" + tail.value +")" + " => null"
+   }
 }
 
+const conga = new LinkedList();
 
+conga.append('George')
+conga.append('Cat')
+conga.append('Dog')
+conga.append('Bird')
+conga.append('Pigeon')
+conga.prepend('Edvardas')
 
+console.log(conga.size())
+console.log(conga.head())
+console.log(conga.tail())
+console.log(conga.toString())
 
 
 
